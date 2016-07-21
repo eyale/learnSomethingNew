@@ -6,3 +6,7 @@ for (let index = 0; index < buttons.length; index++) {
   buttons[index].innerHTML = index
   buttons[index].onclick = (e) => {console.log(index)}
 }
+
+const firstContant = 'firstConstant'
+
+// firstContant = 'another value' // error - read only property
