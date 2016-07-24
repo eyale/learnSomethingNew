@@ -1,3 +1,6 @@
+console.log(`LESSON: ${'example_variables'}`);
+
+
 let buttons = document.querySelectorAll('button')
 
 let object1 = { a: 1, b: true, c: 'q'}
