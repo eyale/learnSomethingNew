@@ -1,4 +1,6 @@
-console.log(`LESSON: ${'example_variables'}`);
+console.log(`
+LESSON: ${'example variables'}
+`);
 
 
 let buttons = document.querySelectorAll('button')

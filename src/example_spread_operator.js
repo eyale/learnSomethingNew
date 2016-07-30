@@ -1,4 +1,6 @@
-console.log(`LESSON: ${'example_spread_operator'}`);
+console.log(`
+LESSON: ${'example_spread_operator'}
+`);
 
 
 let predators = [ 'lion', 'eagle', 'bear']
