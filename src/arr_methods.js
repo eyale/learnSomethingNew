@@ -1,5 +1,4 @@
 // Для того, чтобы получить массив ключей из объекта, нужно воспользоваться функцией Object.keys:
-
 const employee = {
   name: 'John',
   phone: '+7 (765) 000-98-34',
@@ -10,17 +9,12 @@ const employee = {
 const keys = Object.keys(employee);
 console.log(keys); // ["name","phone","company","email","key"]
 
-
 // После того, как желаемый массив был получен, его можно перебрать, например, с помощью метода forEach:
 
-keys.forEach(function (index) {
-    console.log(index + ' : ' + keys[index]);
-})
-
+keys.forEach((index) => { console.log(`${index} : ${keys[index]}`) })
 
 // Cокращенно можно записать так (получим только ключи):
-Object.keys(employee).forEach(function(key){console.log(employee[key])});
-
+Object.keys(employee).forEach((key) => { console.log(employee[key])} );
 
 // Метод массивов map похож по своей функциональности на forEach,
 // но результат выполнения callback функции добавляется в новый массив,
@@ -29,21 +23,15 @@ Object.keys(employee).forEach(function(key){console.log(employee[key])});
 // с результатами выполнения функции callback на исходном массиве
 // ПРИМЕНЯЕМ КОГДА МЫ ХОТИМ ПОЛУЧИТЬ НОВЫЙ МАССИВ
 
-
 var nums = [10, 20, 30, 40];
-var resultMap = nums.map(function(num, index, arr) {return Math.pow(num, index)})
-
+var resultMap = nums.map((num, index, arr) => ( Math.pow(num, index) ))
 console.log(resultMap);
 
 
 // filter для фильтрации массива по правилам заданным в callback
 // filter возвращает новый массив
 
-var resultFilter = [18,20,36,5,51,23,3,54].filter(function(element, index, arr) {
-
-    return element < 20;
-})
-
+var resultFilter = [18,20,36,5,51,23,3,54].filter((element, index, arr) => ( element < 20 ))
 console.log(resultFilter);
 
 
@@ -60,10 +48,7 @@ var dataFromServer =  [{"id":1,"name":"Ernest","email":"ebishop0@myspace.com","i
 {"id":9,"name":"Justin","email":"jmedina8@indiegogo.com","isCustomer":true},
 {"id":10,"name":"Dennis","email":"dflores9@g.co","isCustomer":true}];
 
-var customersTrue = dataFromServer.filter(function(person) {
-    return person.isCustomer;
-});
-
+var customersTrue = dataFromServer.filter((person) => ( person.isCustomer; ));
 console.log(customersTrue);
 
 
@@ -93,19 +78,11 @@ console.log(customersTrue);
 // };
 
 
+[12,13,3,4,76].some((element, index, arr) => ( element > 55 ));
 
-[12,13,3,4,76].some(function(element, index, arr) {
-    return element > 55;
-});
-
-[12,13,3,4,76].every(function(element, index, arr) {
-    return element > 55;
-});
-
+[12,13,3,4,76].every((element, index, arr) => ( element > 55 ));
 
 // reduce - принимает два аргумента сallback
 // и начальное значение, которое будет присвоено аргументу result при первой итераци
 
-[10, 20, 30, 40].reduce(function(sum, currEl) {
-    return sum + currEl
-});
+[10, 20, 30, 40].reduce((sum, currEl) => ( sum + currEl ));
