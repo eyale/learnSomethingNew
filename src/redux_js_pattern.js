@@ -83,11 +83,52 @@ class NameContainer extends Component {
 All this does is get the values that are saved in the reducer, and return it to the component so that we can call them using this.props
 **/
 
-export const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   /**
     using REDUX stores, it allows us to just access the reducer values by going state.name. Notice how name is what is being exported in the reducer above
   **/
-
-
-
+  const {name, isSaved} = state.name;
+  return {name, isSaved};
+  /**
+    In mapStateToProps we were mapping the state variables as properties to pass into our presentational component. In mapDispatchToProps we are mapping the action functions to our container to be able to pass it into our presentational component.
+  **/
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    modifyName: (name) => {
+      dispatch(action.modifyName(name));
+    },
+    saveName: () => {
+      dispatch(action.saveName());
+    }
+})
+/**
+  This is the reason we are able to pass in the functions and variables as props to our container. It's the connect function from the react-redux library that does all the magic.
+**/
+export default connect(mapStateToProps, mapDispatchToProps)(NameContainer);
+
+//__________________________ the Dumb component file __________________________
+/**
+* the dumb component which will use the props passed in from the smart component based on a user's actions
+ */
+ import React, {Component} from 'react';
+
+ class Name extends Component {
+   render() {
+     return (
+       <div>
+         <input
+           value={this.props.name}
+           placeholder='Full Name'
+           onChange={(name)=> this.props.modifyName(name)}
+         />
+
+         <button onClick={()=> this.props.saveName()}>
+            {'Save'}
+          </button>
+       </div>
+     )
+   }
+ }
+
+ export default Name;
