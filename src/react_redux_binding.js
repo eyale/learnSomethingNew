@@ -28,12 +28,29 @@ ReactDOM.render(
 
 
 class App extends Component {
+  addTrack() {
+      // взяли переменную this.trackInput из атрибута ref в input
+      console.log('addTrack', this.trackInput.value)
+
+
+      //  так мы диспатчим добавление треков через редакс
+      this.props.onAddTrack(this.trackInput.value)
+      // для того чтобы очищать инпут
+      this.trackInput.value = ''
+  }
+
   render() {
     console.log(this.props.testStore);
     return (
       <div>
-        <input type='text' />
-        <button>addTrack</button>
+          {/*
+              присвоили в переменную
+              this.trackInput значение input
+              и теперь мы можем использовать это значение
+              внутри компонента по переменной this.trackInput
+          */}
+        <input type='text' ref={(input) => {this.trackInput = input} } />
+        <button onClick={() => this.addTrack.bind(this)}>addTrack</button>
         <ul>
           {
             this.props.testStore.map((track, idx) => {
@@ -59,5 +76,21 @@ connect(
   state => ({
     testStore: state
   }),
-  dispatch => ({})
+  dispatch => ({
+    // так нам доступен становится
+    // метод onAddTrack
+    // через this.props.onAddTrack()
+    // в компоненте мы напишем так
+    // this.props.onAddTrack(this.trackInput.value)
+      onAddTrack: (trackName) => {
+          dispatch({
+              type: 'ADD_TRACK',
+              payload: trackName
+          })
+      }
+  })
 )(App)
+
+
+// dispatch в сторе это второй аргумент = функция
+// которая принимает объект методов
