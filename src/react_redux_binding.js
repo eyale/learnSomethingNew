@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import {Provider,connect} from 'react-redux';
 import {createStore} from 'redux';
 
-// редюсер для приложения
 const initialState = [
   'Smells like spirit',
   'Enter sandman'
 ]
+// редюсер для приложения
 function playList(state=initialState, action) {
   if(action.type === 'ADD_TRACK') {
     return [
