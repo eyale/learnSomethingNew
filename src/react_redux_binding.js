@@ -2,42 +2,11 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Provider,connect} from 'react-redux';
 import {createStore} from 'redux';
-
-// редюсер для приложения
-const initialState = {
-  tracks:[
-      'Smells like spirit',
-      'Enter sandman'
-  ],
-  playlists: [
-      'work playlist',
-      'home playlist'
-  ]
-}
-
-function playList(state=initialState, action) {
-  if(action.type === 'ADD_TRACK') {
-    // так как  у нас изменилась структура хранения данных
-    // мы теперь в редюсере при экшене добавления треков
-    // первым елементом объекта стейт
-    // расширяем существующим стейтом
-    // вторым элементом объекта добавляем
-    // добавляем tracks(это свойство есть уже объекте стейт)
-    // с массивом расширенным старым массивом стейт.свойствоТрекс
-    // и последний элемент массива берем из экшен.пейлоад
-    // новые данные которые мы получаем из экшена
-    // также надо поменять диспатч
-    return {
-      ...state,
-      tracks: [...state.tracks, action.payload]
-    }
-  }
-  return state
-}
+import reducer from './reducers';
 
 // __REDUX_DEVTOOLS_EXTENSION__ это нужно для редакс девтулс
 const store = createStore(
-    playList
+    reducer
     , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
@@ -112,7 +81,43 @@ connect(
       }
   })
 )(App)
-
-
 // dispatch в сторе это второй аргумент = функция
 // которая принимает объект методов
+
+
+//-----------------------------------------------------------------------./reducers/index.js
+import {combineReducers} from 'redux';
+import tracks from './tracks';
+import playlists from './playlists';
+
+export default combineReducers({
+    tracks, playlists
+});
+
+
+// ./reducers/tracks.js
+const initialState = [
+      'Smells like spirit',
+      'Enter sandman'
+  ]
+
+export default function tracks(state=initialState, action) {
+  if(action.type === 'ADD_TRACK') {
+    return [...state.tracks, action.payload]
+  }
+  return state
+}
+
+// ./reducers/playlists.js
+
+// редюсер для приложения
+const initialState =  [
+  'work playlist',
+  'home playlist'
+]
+
+export default function playlist(state=initialState, action) {
+    if(action.type ==='ADD_PLAYLIST') {
+        return [...state, action.payload]
+    }
+}
