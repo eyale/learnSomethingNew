@@ -4,20 +4,42 @@ import {Provider,connect} from 'react-redux';
 import {createStore} from 'redux';
 
 // редюсер для приложения
-const initialState = [
-  'Smells like spirit',
-  'Enter sandman'
-]
+const initialState = {
+  tracks:[
+      'Smells like spirit',
+      'Enter sandman'
+  ],
+  playlists: [
+      'work playlist',
+      'home playlist'
+  ]
+}
+
 function playList(state=initialState, action) {
   if(action.type === 'ADD_TRACK') {
-    return [
+    // так как  у нас изменилась структура хранения данных
+    // мы теперь в редюсере при экшене добавления треков
+    // первым елементом объекта стейт
+    // расширяем существующим стейтом
+    // вторым элементом объекта добавляем
+    // добавляем tracks(это свойство есть уже объекте стейт)
+    // с массивом расширенным старым массивом стейт.свойствоТрекс
+    // и последний элемент массива берем из экшен.пейлоад
+    // новые данные которые мы получаем из экшена
+    // также надо поменять диспатч
+    return {
       ...state,
-      action.payload
-    ]
+      tracks: [...state.tracks, action.payload]
+    }
   }
   return state
 }
-const store = createStore(playList);
+
+// __REDUX_DEVTOOLS_EXTENSION__ это нужно для редакс девтулс
+const store = createStore(
+    playList
+    , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -40,7 +62,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.testStore);
+    console.log(this.props.tracks);
     return (
       <div>
           {/*
@@ -53,7 +75,7 @@ class App extends Component {
         <button onClick={() => this.addTrack.bind(this)}>addTrack</button>
         <ul>
           {
-            this.props.testStore.map((track, idx) => {
+            this.props.tracks.map((track, idx) => {
               <li key={idx}>
                 {track}
               </li>
@@ -70,11 +92,11 @@ class App extends Component {
 // mapStateToProps и mapDispatchToProps
 // тем самым переводит в проперти(свойства)
 // состояние(стейт) или действия/посылки(диспатчи) из редакса
-// теперь в переменной testStore содержится наш стейт
-// и в компоненте можно достучаться к стейту через переменную testStore
+// теперь в переменной tracks содержится наш стейт
+// и в компоненте можно достучаться к стейту через переменную tracks
 connect(
   state => ({
-    testStore: state
+    tracks: state.tracks
   }),
   dispatch => ({
     // так нам доступен становится
