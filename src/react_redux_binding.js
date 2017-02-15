@@ -30,8 +30,15 @@ class App extends Component {
       this.trackInput.value = ''
   }
 
+// создаем функцию findInput для того что бы обрабатывать searchInput
+
+  findInput() {
+      console.log('findInput', this.searchInput.value);
+
+      this.props.onFindTrack(this.searchInput.value)
+  }
+
   render() {
-    console.log(this.props.tracks);
     return (
       <div>
           {/*
@@ -42,15 +49,18 @@ class App extends Component {
           */}
         <input type='text' ref={(input) => {this.trackInput = input} } />
         <button onClick={() => this.addTrack.bind(this)}>addTrack</button>
+
+        <input type='text' ref={(input) => {this.searchInput = input} } />
+        <button onClick={() => this.findInput.bind(this)}>Find track</button>
+
         <ul>
           {
             this.props.tracks.map((track, idx) => {
-              <li key={idx}>
-                {track}
-              </li>
+              <li key={idx}>{track.name}</li>
             })
           }
         </ul>
+
       </div>
     )
   }
@@ -63,9 +73,13 @@ class App extends Component {
 // состояние(стейт) или действия/посылки(диспатчи) из редакса
 // теперь в переменной tracks содержится наш стейт
 // и в компоненте можно достучаться к стейту через переменную tracks
+
+
+// мы фильтруем именно в коннекте для того, что бы нам возвращалось значение
+// согласно результата редюсера filterTracks
 connect(
   state => ({
-    tracks: state.tracks
+    tracks: state.tracks.filter((track) => track.name.includes(state.filterTracks))
   }),
   dispatch => ({
     // так нам доступен становится
@@ -73,10 +87,21 @@ connect(
     // через this.props.onAddTrack()
     // в компоненте мы напишем так
     // this.props.onAddTrack(this.trackInput.value)
-      onAddTrack: (trackName) => {
+      onAddTrack: (name) => {
+          const payload = {
+              id: Date.now().toString(),
+              name
+          }
           dispatch({
               type: 'ADD_TRACK',
-              payload: trackName
+              payload
+          })
+      },
+      onFindTrack: (name) => {
+
+          dispatch({
+              type: 'FIND_TRACK',
+              payload: name
           })
       }
   })
@@ -89,19 +114,15 @@ connect(
 import {combineReducers} from 'redux';
 import tracks from './tracks';
 import playlists from './playlists';
+import filterTracks from './filter.js'
 
 export default combineReducers({
-    tracks, playlists
+    tracks, playlists, filterTracks
 });
 
 
 // ./reducers/tracks.js
-const initialState = [
-      'Smells like spirit',
-      'Enter sandman'
-  ]
-
-export default function tracks(state=initialState, action) {
+export default function tracks(state=[], action) {
   if(action.type === 'ADD_TRACK') {
     return [...state.tracks, action.payload]
   }
@@ -117,7 +138,16 @@ const initialState =  [
 ]
 
 export default function playlist(state=initialState, action) {
-    if(action.type ==='ADD_PLAYLIST') {
+    if(action.type === 'ADD_PLAYLIST') {
         return [...state, action.payload]
     }
+}
+
+// ./reducers/filter.js
+
+export default function filterTracks(state=[], action) {
+    if(action.type === 'FIND_TRACK') {
+        return action.payload
+    }
+    return state;
 }
