@@ -86,3 +86,7 @@ console.log(customersTrue);
 // и начальное значение, которое будет присвоено аргументу result при первой итераци
 
 [10, 20, 30, 40].reduce((sum, currEl) => ( sum + currEl ));
+
+
+// Unique array values
+const arr = [...new Set([1, 2, 3, 3])]; // [1, 2, 3]
