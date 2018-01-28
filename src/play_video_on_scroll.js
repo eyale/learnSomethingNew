@@ -1,4 +1,4 @@
-<script>
+{/* <script>
   var videos = document.getElementsByTagName("video"),
     fraction = 0.99;
   function checkScroll() {
@@ -27,4 +27,4 @@
     }
   }
   window.addEventListener('scroll', checkScroll, false);
-</script>
+</script> */}
