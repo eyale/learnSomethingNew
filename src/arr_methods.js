@@ -48,7 +48,7 @@ var dataFromServer =  [{"id":1,"name":"Ernest","email":"ebishop0@myspace.com","i
 {"id":9,"name":"Justin","email":"jmedina8@indiegogo.com","isCustomer":true},
 {"id":10,"name":"Dennis","email":"dflores9@g.co","isCustomer":true}];
 
-var customersTrue = dataFromServer.filter((person) => ( person.isCustomer; ));
+var customersTrue = dataFromServer.filter((person) => ( person.isCustomer ));
 console.log(customersTrue);
 
 
