@@ -90,3 +90,8 @@ console.log(customersTrue);
 
 // Unique array values
 const arr = [...new Set([1, 2, 3, 3])]; // [1, 2, 3]
+
+
+
+[2, 11, 3, 5, 14, 0].sort(function(a, b) {return a < b ? -1 : a > b ? 1 : 0}) //[0, 2, 3, 5, 11, 14]
+[2, 11, 3, 5, 14, 0].sort(function(a, b) {return a - b }) //[0, 2, 3, 5, 11, 14]
